@@ -16,6 +16,7 @@ public class Questions
 	*	Provides pointers for all of the questions */
 	private static LinkedList<BinaryTree<String>> parents;
 	
+	
 	/**
 	*	Main method that runs the game
 	*/
@@ -24,50 +25,23 @@ public class Questions
 		BinaryTree<String> root = new BinaryTree<String>();
 		parents = new LinkedList<BinaryTree<String>>();
 		
-		//root.setValue("Is it alive?");
-		//root.setLeft(new BinaryTree<String>("Billy Long")); //LEFT == YES
-		//root.setRight(new BinaryTree<String>("Chair"));     //RIGHT == NO
-		
 		data = read();
 		buildData(root);
-/*
-		System.out.println("1 " + data);
-		System.out.println("2 " + root);
-		System.out.println("3 " + root);
-		System.out.println("4");
-		for (String x: root)
-			System.out.println(x);
-	
 
-Is it alive?(Second Question?(A,Third Question?(A,B)),chair) 
-
-		Is it alive?
-	     /      \
-	Second Q	chair
-	  /  \
-	A	Third Q
-		  /  \
-		A	  B
-*/
-		
 		BinaryTree<String> curr = root;					//Game starts here
 		Scanner keyboard = new Scanner(System.in);
 		while (curr.isLeaf() != true)
 		{
 			System.out.println("\n" + curr.value);
 			String answer = keyboard.nextLine();
-			if (answer.equalsIgnoreCase("yes"))
-			{
-				curr = curr.left();
-			}
-			else
-			{
+			if (answer.indexOf("n") >= 0 || answer.equalsIgnoreCase("no"))
 				curr = curr.right();
-			}
+			else
+				curr = curr.left();
 		}
 		System.out.println("\nYou were thinking of:  " + curr + "\n\n Was I correct?");
 		String correct = keyboard.nextLine();
-		if (correct.equalsIgnoreCase("no"))
+		if (correct.indexOf("n") >= 0 || correct.equalsIgnoreCase("no"))
 		{
 			System.out.println("\nWhat were you thinking of?");
 			String answer = keyboard.nextLine();
@@ -86,20 +60,29 @@ Is it alive?(Second Question?(A,Third Question?(A,B)),chair)
 			System.out.println("\nThat's what I thought.");
 	}
 	
-	
+	/**
+	*	Used to call buildData() with only one parameter
+	*	@param node The root BinaryTree for the data in the text document to be translated
+	*/
 	public static void buildData(BinaryTree<String> node)
 	{
 		buildData(node, 0, 0, null);
 	}
 	
-	
+	/**
+	*	Recursively translates data from text file into a binary tree
+	*	@param node The BinaryTree node that is currently being edited
+	*	@param start The beginning of each substring to be copied into the BinaryTrees
+	*	@param i The current index of the String and the end of each substring to be copied into the Binary Trees
+	*	@param parent The parent of the current node. This is used to go from a left node to a right node
+	*/
 	public static void buildData(BinaryTree<String> node, int start, int i, BinaryTree<String> parent)
 	{
 		while (i < data.length() - 1 && data.charAt(i) != '(' && data.charAt(i) != ',' && data.charAt(i) != ')')
 		{
 			i++;
 		}
-		char ch = data.charAt(i);						//Format of data:	Question(Answer,Answer)  or Question(Question(Answer,Answer),Answer) 
+		char ch = data.charAt(i);
 		if (ch == '(')		//For non-leaf's
 		{
 			node.setValue(data.substring(start, i));
@@ -135,7 +118,10 @@ Is it alive?(Second Question?(A,Third Question?(A,B)),chair)
 		}
 	}
 
-	
+	/**
+	*	Reads the text document and returns the text as a String
+	*	@return Returns the text from the text file as a String
+	*/
 	public static String read()
 	{
 		String s = "";
@@ -153,7 +139,11 @@ Is it alive?(Second Question?(A,Third Question?(A,B)),chair)
 		s = input.nextLine();
 		return s;
 	}
-
+	
+	/**
+	*	Overwrites the text document with the BinaryTree's toString() method
+	*	@param root The BinaryTree to be copied
+	*/
 	public static void rewrite(BinaryTree<String> root)
 	{
 		String pathname = "Data.txt";
