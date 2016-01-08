@@ -179,7 +179,7 @@ public class Questions
 			System.exit(1);
 		}
 		PrintWriter output = new PrintWriter(writer);
-		output.print(root + " ");
+		output.print(root);
 		output.close();
 	}
 }

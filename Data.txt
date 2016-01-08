@@ -1,1 +1,1 @@
-Is it alive?(dog,chair) 
+Is it alive?(Is it a real thing?(Sam Scherl,Darth Vader),Does it make noise?(car, book))
