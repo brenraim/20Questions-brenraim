@@ -1,7 +1,7 @@
 /**
 *	@author Brendan Raimann
 *	1/6/15
-*	Version 0.7
+*	Version 1.1
 *	A version of 20 (or more) Questions using a Binary Tree
 */
 
@@ -10,10 +10,14 @@ import java.util.Scanner;
 
 public class Questions
 {
-	/** For local storing of the text document */
+	/** 
+	*	For local storing of the text document 
+	*/
 	private static String data;
-	/** A helper for building the data from the text document
-	*	Provides pointers for all of the questions */
+	/** 
+	*	A helper for building the data from the text document
+	*	Provides pointers for all of the questions 
+	*/
 	private static LinkedList<BinaryTree<String>> parents;
 	
 	
@@ -28,8 +32,9 @@ public class Questions
 		data = read();
 		buildData(root);
 
-		BinaryTree<String> curr = root;					//Game starts here
+		BinaryTree<String> curr = root;	
 		Scanner keyboard = new Scanner(System.in);
+		System.out.println("\n\nWelcome to 20 (Or More) Questions!\n");
 		while (curr.isLeaf() != true)
 		{
 			System.out.println("\n" + curr.value);
@@ -39,15 +44,30 @@ public class Questions
 			else
 				curr = curr.left();
 		}
-		System.out.println("\nYou were thinking of:  " + curr + "\n\n Was I correct?");
+		System.out.println("\nYou were thinking of:  " + curr + "\n\nWas I correct?");
 		String correct = keyboard.nextLine();
 		if (correct.indexOf("n") >= 0 || correct.equalsIgnoreCase("no"))
 		{
 			System.out.println("\nWhat were you thinking of?");
 			String answer = keyboard.nextLine();
+			while (answer.indexOf("(") >= 0 || answer.indexOf(",") >= 0 || answer.indexOf(")") >= 0)
+			{
+				System.out.println("\nThat input has illegal characters. Try again without using the following:  '('    ','    ')'    ");
+				System.out.println("What were you thinking of?");
+				answer = keyboard.nextLine();
+			}
 			System.out.println("\nGive me a question that would help me figure that out (Answering YES should get me to the answer).");
 			String question = keyboard.nextLine();
+			while (question.indexOf("(") >= 0 || question.indexOf(",") >= 0 || question.indexOf(")") >= 0)
+			{
+				System.out.println("\nThat input has illegal characters. Try again without using the following:  '('    ','    ')'    ");
+				System.out.println("Give me a question that would help me figure that out (Answering YES should get me to the answer).");
+				question = keyboard.nextLine();
+			}
 			System.out.println("\nThanks!\n\n");
+			
+			if (question.indexOf("?") < 0)
+				question = question + "?";
 			
 			String temp = curr.value();
 			curr.setValue(question);
@@ -61,8 +81,9 @@ public class Questions
 	}
 	
 	/**
-	*	Used to call buildData() with only one parameter
-	*	@param node The root BinaryTree for the data in the text document to be translated
+	*	Used to call private method buildData() using only one parameter
+	*	Builds the local binary tree with the stored data on a text file
+	*	@param node The root BinaryTree for the data in the text document to be translated to
 	*/
 	public static void buildData(BinaryTree<String> node)
 	{
@@ -74,9 +95,9 @@ public class Questions
 	*	@param node The BinaryTree node that is currently being edited
 	*	@param start The beginning of each substring to be copied into the BinaryTrees
 	*	@param i The current index of the String and the end of each substring to be copied into the Binary Trees
-	*	@param parent The parent of the current node. This is used to go from a left node to a right node
+	*	@param parent The parent of the current node. This is necessary to go from a left node to a right node
 	*/
-	public static void buildData(BinaryTree<String> node, int start, int i, BinaryTree<String> parent)
+	private static void buildData(BinaryTree<String> node, int start, int i, BinaryTree<String> parent)
 	{
 		while (i < data.length() - 1 && data.charAt(i) != '(' && data.charAt(i) != ',' && data.charAt(i) != ')')
 		{
@@ -161,5 +182,4 @@ public class Questions
 		output.print(root + " ");
 		output.close();
 	}
-	
 }
