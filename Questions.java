@@ -1,9 +1,13 @@
 /**
 *	@author Brendan Raimann
 *	1/6/15
-*	Version 1.1
+*	Version 1.3
 *	A version of 20 (or more) Questions using a Binary Tree
 */
+
+//Make root a class variable for clear
+//	set root and branches to default
+//	call rewrite()
 
 import java.io.*;
 import java.util.Scanner;
@@ -13,12 +17,19 @@ public class Questions
 	/** 
 	*	For local storing of the text document 
 	*/
+	
 	private static String data;
+	
 	/** 
 	*	A helper for building the data from the text document
 	*	Provides pointers for all of the questions 
 	*/
 	private static LinkedList<BinaryTree<String>> parents;
+	
+	/**
+	*	The Binary Tree that stores the data
+	*/
+	private static BinaryTree<String> root;
 	
 	
 	/**
@@ -26,7 +37,7 @@ public class Questions
 	*/
 	public static void main(String[] args)
 	{
-		BinaryTree<String> root = new BinaryTree<String>();
+		root = new BinaryTree<String>();
 		parents = new LinkedList<BinaryTree<String>>();
 		
 		data = read();
@@ -181,5 +192,15 @@ public class Questions
 		PrintWriter output = new PrintWriter(writer);
 		output.print(root);
 		output.close();
+	}
+	/**
+	*	Clears all of the data and replaces it with the default setup
+	*/
+	public static void clear()
+	{
+		root = new BinaryTree<String>("Is it alive?");
+		root.setLeft(new BinaryTree<String>("dog"));
+		root.setRight(new BinaryTree<String>("chair"));
+		rewrite(root);
 	}
 }
